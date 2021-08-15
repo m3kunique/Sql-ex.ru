@@ -91,8 +91,7 @@ WHERE p.color = 'Y');
 <h3>Задание 19:</h3>
 Для каждого производителя, имеющего модели в таблице Laptop, найдите средний размер экрана выпускаемых им ПК-блокнотов. Вывести: maker, средний размер экрана.<br>
 <b>Запрос 19:</b><br>
-SELECT Product.maker, AVG(Laptop.screen)<br>
-GROUP BY Product.maker;
+SELECT Product.maker, AVG(Laptop.screen) GROUP BY Product.maker;
 <h3>Задание 20:</h3>
 Найдите производителей, выпускающих по меньшей мере три различных модели ПК. Вывести: Maker, число моделей ПК.<br>
 <b>Запрос 20:</b><br>
