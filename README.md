@@ -114,16 +114,25 @@ GROUP BY Product.maker;
 <h3>Задание 24:</h3>
 Перечислите номера моделей любых типов, имеющих самую высокую цену по всей имеющейся в базе данных продукции.<br>
 <b>Запрос 24:</b><br>
-SELECT model FROM (SELECT DISTINCT model, price FROM Laptop WHERE Laptop.price = (SELECT MAX(price) FROM Laptop)<br>
-UNION<br> 
-SELECT DISTINCT model, price FROM PC WHERE PC.price = (SELECT MAX(price) FROM PC)<br>  
-UNION<br> 
-SELECT DISTINCT model, price FROM Printer WHERE Printer.price = (SELECT MAX(price) FROM Printer)) AS t<br> 
-WHERE t.price=(SELECT MAX(price) FROM (SELECT DISTINCT price FROM Laptop WHERE Laptop.price = (SELECT MAX(price) FROM Laptop)<br>  
-UNION<br> 
-SELECT DISTINCT price FROM PC WHERE PC.price = (SELECT MAX(price) FROM PC)<br>  
-UNION<br> 
-SELECT DISTINCT price FROM Printer WHERE Printer.price = (SELECT MAX(price) FROM printer)) AS t1 );
+WITH MaxPrice AS (
+    SELECT MAX(price) AS max_price
+    FROM (
+        SELECT price FROM PC
+        UNION
+        SELECT price FROM Laptop
+        UNION
+        SELECT price FROM Printer
+    ) AS AllPrices
+)
+SELECT model
+FROM (
+    SELECT model, price FROM PC
+    UNION
+    SELECT model, price FROM Laptop
+    UNION
+    SELECT model, price FROM Printer
+) AS AllProducts
+WHERE price = (SELECT max_price FROM MaxPrice);
 <h3>Задание 25:</h3>
 Найдите производителей принтеров, которые производят ПК с наименьшим объемом RAM и с самым быстрым процессором среди всех ПК, имеющих наименьший объем RAM. Вывести: Maker<br>
 <b>Запрос 25:</b><br>
